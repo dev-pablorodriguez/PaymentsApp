@@ -1,0 +1,29 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <ProduceReferenceAssembly>true</ProduceReferenceAssembly>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Nancy" Version="2.0.0" />
+    <PackageReference Include="sqlite-net-pcl" Version="1.7.335" />
+    <PackageReference Include="Xamarin.Forms" Version="4.8.0.1687" />  
+    <PackageReference Include="Xamarin.Essentials" Version="1.6.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Views\HomePage.xaml.cs">
+      <DependentUpon>HomePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\NewPaymentPage.xaml.cs">
+      <DependentUpon>NewPaymentPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\PaymentsPage.xaml.cs">
+      <DependentUpon>PaymentsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\PaymentDetailPage.xaml.cs">
+      <DependentUpon>PaymentDetailPage.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+</Project>

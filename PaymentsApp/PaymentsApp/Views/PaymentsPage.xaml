@@ -1,0 +1,84 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="PaymentsApp.Views.PaymentsPage"
+             Title="{Binding Title}"
+             xmlns:local="clr-namespace:PaymentsApp.ViewModels"  
+             xmlns:model="clr-namespace:PaymentsApp.Models"
+             xmlns:converter="clr-namespace:PaymentsApp.Models.Converters"
+             x:Name="BrowseItemsPage" BackgroundColor="#EEEEEE">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converter:ChileanCurrencyConverter x:Key="currencyConverter"/>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem IconImageSource="icon_add.png" Text="Add" Command="{Binding AddItemCommand}" />
+    </ContentPage.ToolbarItems>
+    
+    <RefreshView x:DataType="local:PaymentsViewModel" Command="{Binding LoadItemsCommand}" IsRefreshing="{Binding IsBusy, Mode=TwoWay}">
+        <CollectionView x:Name="ItemsListView"
+                ItemsSource="{Binding Items}"
+                SelectionMode="None">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <StackLayout Padding="10, 5" x:DataType="model:Payment">
+                        <Frame Padding="0" CornerRadius="5" HorizontalOptions="FillAndExpand" OutlineColor="Black" HasShadow="True" >
+                            <Grid Padding="10, 5" BackgroundColor="White">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="1*"/>
+                                    <ColumnDefinition Width="1*"/>
+                                    <ColumnDefinition Width="1*"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="1*"/>
+                                    <RowDefinition Height="1*"/>
+                                </Grid.RowDefinitions>
+
+                                <StackLayout Grid.Column="0" Grid.ColumnSpan="2">
+                                    <Label Grid.Row="0" 
+                                           Text="{Binding Text}" 
+                                           LineBreakMode="NoWrap" 
+                                           Style="{DynamicResource ListItemTextStyle}" 
+                                           FontSize="15" />
+                                    <Label Grid.Row="1" 
+                                           Text="{Binding Description}" 
+                                           LineBreakMode="TailTruncation"
+                                           Style="{DynamicResource ListItemDetailTextStyle}"
+                                           FontSize="12" />
+                                </StackLayout>
+                                    
+                                <StackLayout Grid.Column="2">
+                                    <Label Grid.Row="0" 
+                                           Text="{Binding Date, StringFormat='{}{0:dd-MM-yyyy}'}" 
+                                           LineBreakMode="NoWrap" 
+                                           Style="{DynamicResource ListItemDateStyle}" 
+                                           FontSize="12" 
+                                           HorizontalTextAlignment="End"/>
+                                    <Label Grid.Row="1" 
+                                           Text="{Binding Price, Converter={StaticResource currencyConverter}}" 
+                                           LineBreakMode="NoWrap"
+                                           Style="{DynamicResource ListItemDetailPriceStyle}"
+                                           FontSize="15" 
+                                           FontAttributes="Bold" 
+                                           HorizontalTextAlignment="End"/>
+                                </StackLayout>
+
+                                <Grid.GestureRecognizers>
+                                    <TapGestureRecognizer 
+                                        NumberOfTapsRequired="1"
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type local:PaymentsViewModel}}, Path=ItemTapped}"		
+                                        CommandParameter="{Binding .}">
+                                    </TapGestureRecognizer>
+                                </Grid.GestureRecognizers>
+
+                            </Grid>
+                        </Frame>
+                    </StackLayout>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </RefreshView>
+</ContentPage>
